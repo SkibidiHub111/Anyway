@@ -1397,7 +1397,7 @@ end
 local player = game.Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
-if getgenv().Shinichi and getgenv().Shinichi["Enable Screen Black"] == true then
+if getgenv().Config and getgenv().Config ["Enable Screen Black"] == true then
     task.delay(1, function()
         local blackScreen = Instance.new("Frame")
         blackScreen.Name = "BlackScreenCover"
@@ -1408,7 +1408,7 @@ if getgenv().Shinichi and getgenv().Shinichi["Enable Screen Black"] == true then
         blackScreen.ZIndex = 999
         blackScreen.Parent = playerGui
     end)
-elseif getgenv().config and getgenv().config["Enable Screen Black"] == false then
+elseif getgenv().Config and getgenv().Config["Enable Screen Black"] == false then
     local existing = playerGui:FindFirstChild("BlackScreenCover")
     if existing then
         existing:Destroy()
