@@ -76,6 +76,27 @@ spawn(function()
     end
 end)
 
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+
+local config = getgenv().Config
+local screenBlackConfig = config["Delete Planted Seed"] and config["Delete Planted Seed"]["Enable Screen Black"]
+
+if screenBlackConfig then
+    local existing = playerGui:FindFirstChild("BlackScreenCover")
+    if existing then existing:Destroy() end
+
+    local blackScreen = Instance.new("Frame")
+    blackScreen.Name = "BlackScreenCover"
+    blackScreen.Size = UDim2.new(1, 0, 1, 0)
+    blackScreen.Position = UDim2.new(0, 0, 0, 0)
+    blackScreen.BackgroundColor3 = Color3.new(0, 0, 0)
+    blackScreen.BackgroundTransparency = 0
+    blackScreen.ZIndex = 999999
+    blackScreen.Parent = playerGui
+end
+
 repeat wait() until game:IsLoaded()
 
 if getgenv().kaitun and getgenv().kaitun.loaded then return end
@@ -1394,28 +1415,3 @@ if getgenv().Config["Auto Rejoin"]["Enabled"] then
     end)
 end
 
-local player = game.Players.LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
-
-local config = getgenv().Config
-
-if config and config["Enable Screen Black"] == true then
-    local existing = playerGui:FindFirstChild("BlackScreenCover")
-    if existing then
-        existing:Destroy()
-    end
-
-    local blackScreen = Instance.new("Frame")
-    blackScreen.Name = "BlackScreenCover"
-    blackScreen.Size = UDim2.new(1, 0, 1, 0)
-    blackScreen.Position = UDim2.new(0, 0, 0, 0)
-    blackScreen.BackgroundColor3 = Color3.new(0, 0, 0)
-    blackScreen.BackgroundTransparency = 0
-    blackScreen.ZIndex = 999999
-    blackScreen.Parent = playerGui
-else
-    local existing = playerGui:FindFirstChild("BlackScreenCover")
-    if existing then
-        existing:Destroy()
-    end
-end
