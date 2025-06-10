@@ -1397,21 +1397,25 @@ end
 local player = game.Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
-if getgenv().Config and getgenv().Config ["Enable Screen Black"] == true then
-    task.delay(1, function()
-        local blackScreen = Instance.new("Frame")
-        blackScreen.Name = "BlackScreenCover"
-        blackScreen.Size = UDim2.new(1, 0, 1, 0)
-        blackScreen.Position = UDim2.new(0, 0, 0, 0)
-        blackScreen.BackgroundColor3 = Color3.new(0, 0, 0)
-        blackScreen.BackgroundTransparency = 0
-        blackScreen.ZIndex = 999
-        blackScreen.Parent = playerGui
-    end)
-elseif getgenv().Config and getgenv().Config["Enable Screen Black"] == false then
+local config = getgenv().Config
+
+if config and config["Delete Planted Seed"] and config["Delete Planted Seed"]["Enable Screen Black"] == true then
+    local existing = playerGui:FindFirstChild("BlackScreenCover")
+    if existing then
+        existing:Destroy()
+    end
+
+    local blackScreen = Instance.new("Frame")
+    blackScreen.Name = "BlackScreenCover"
+    blackScreen.Size = UDim2.new(1, 0, 1, 0)
+    blackScreen.Position = UDim2.new(0, 0, 0, 0)
+    blackScreen.BackgroundColor3 = Color3.new(0, 0, 0)
+    blackScreen.BackgroundTransparency = 0
+    blackScreen.ZIndex = 9999
+    blackScreen.Parent = playerGui
+else
     local existing = playerGui:FindFirstChild("BlackScreenCover")
     if existing then
         existing:Destroy()
     end
 end
-
