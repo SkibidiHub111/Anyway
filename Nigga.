@@ -1,3 +1,28 @@
+pcall(function()
+    local player = game:GetService("Players").LocalPlayer
+    local playerGui = player:WaitForChild("PlayerGui")
+
+    local old = playerGui:FindFirstChild("TrueFullBlackScreen")
+    if old then old:Destroy() end
+
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "TrueFullBlackScreen"
+    screenGui.ResetOnSpawn = false
+    screenGui.IgnoreGuiInset = true
+    screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    screenGui.DisplayOrder = 999999
+    screenGui.Parent = playerGui
+
+    local fullBlack = Instance.new("Frame")
+    fullBlack.Size = UDim2.new(1, 0, 1, 0)
+    fullBlack.Position = UDim2.new(0, 0, 0, 0)
+    fullBlack.BackgroundColor3 = Color3.new(0, 0, 0)
+    fullBlack.BackgroundTransparency = 0
+    fullBlack.BorderSizePixel = 0
+    fullBlack.ZIndex = 999999
+    fullBlack.Parent = screenGui
+end)
+
 local player = game.Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
@@ -1395,26 +1420,3 @@ if getgenv().Config["Auto Rejoin"]["Enabled"] then
     end)
 end
 
-if getgenv().Config and getgenv().Config["Enable Black Screen"] then
-    pcall(function()
-        local player = game:GetService("Players").LocalPlayer
-        local playerGui = player:WaitForChild("PlayerGui")
-        local old = playerGui:FindFirstChild("TrueFullBlackScreen")
-        if old then old:Destroy() end
-        local screenGui = Instance.new("ScreenGui")
-        screenGui.Name = "TrueFullBlackScreen"
-        screenGui.ResetOnSpawn = false
-        screenGui.IgnoreGuiInset = true
-        screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-        screenGui.DisplayOrder = 999999
-        screenGui.Parent = playerGui
-        local fullBlack = Instance.new("Frame")
-        fullBlack.Size = UDim2.new(1, 0, 1, 0)
-        fullBlack.Position = UDim2.new(0, 0, 0, 0)
-        fullBlack.BackgroundColor3 = Color3.new(0, 0, 0)
-        fullBlack.BackgroundTransparency = 0
-        fullBlack.BorderSizePixel = 0
-        fullBlack.ZIndex = 999999
-        fullBlack.Parent = screenGui
-    end)
-end
