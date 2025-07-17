@@ -1,28 +1,22 @@
-[=[
+--[[
 Made by baor gay bot discord
-]=]
+]]--
 
-return function(c)
-local A,k,H,n,j={},{},{},{},{}
-local H,h,U=string,table,math
-local I,s,I=H.char,h.insert,U.random
-local ecNRlTQrguAoIB={53,210,47,30,71,180,94,113,178,24,127,168,214,121,43,203,121,157,149,237,101}
-local FJELQDvGwozbPGZ={246,160,245,73,64,172,225}
-local RXojgGhiJ={140,210,78,64,182,173,198,122,162,30,243,207,27,186,165,122,194,98,254,153,85,248,255,142,148,50,67,161,10,86,129,85,76,216,52,43,193,16,114,12,71,171,215,64,108,159,13,211,231,165,86,162,93,58,139,144,87,126,69,179,230,156,6,164,239,66,114,109,66,20}
-local hTGloxPHzmU={4,184,230,54,242,173,70,77,94,47,6,148,107,251,224,234,72,53,125,142,123,58,124,146,62,101,247,216,229,38,44,131,67,44,147,190,182,52,189,55,72,17,215,203,160,43,137,40,255,254,143,153,180,41,51,136,244}
-local VhvjEuQzJL=function(Q,M,q)
-local Y={}
-for S=1,#Q do
-local w=Q[S]
-w=(w-(S-1)*13-I(50,200))%256
-for U=#M,1,-1 do
-w=w~(M[U]+(S-1)%127+U-1)
-end
-s(Y,I(w))
-end
-return H.concat(Y)
-end
-local xarWtmtbiX=VhvjEuQzJL(ecNRlTQrguAoIB,FJELQDvGwozbPGZ,RXojgGhiJ)
-local iSpkDaAlaQ,_=load(xarWtmtbiX)
-if iSpkDaAlaQ then return iSpkDaAlaQ()else error("decode failed")end
-end
+(function()
+    local _ = {148,151,143,137,156,193,200,155,128,158,204,198}
+    local __ = 228
+    local ___ = ""
+    
+    for ____ = 1, #_ do
+        local _____ = _[____]
+        _____ = _____ ~ (__ + (____ - 1) % 100)
+        ___ = ___ .. string.char(_____)
+    end
+    
+    local ______, _______ = loadstring(___)
+    if ______ then
+        ______()
+    else
+        error("Failed to load")
+    end
+end)()
