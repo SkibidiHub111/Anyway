@@ -1358,10 +1358,6 @@ Module:Init(function()
 	})
 end)
 
-local LastTick = 0
-local Connection
-local RunService = game:GetService("RunService")
-
 Event:Toggle({
     Title = "Auto Buy Zen Items",
     Desc = "Automatically purchases all items from the Zen Event shop",
@@ -1369,9 +1365,10 @@ Event:Toggle({
     Type = "Checkbox",
     Default = false,
     Callback = function(State)
-        if State then
-            if Connection then Connection:Disconnect() end
-            Connection = RunService.Heartbeat:Connect(function()
+        if State == true then
+            ConnectionInit:Disconnect(Connection)
+
+            Connection = ConnectionInit:Connect("Heartbeat", function()
                 local Current = tick()
                 if Current - LastTick < 10 then
                     return
@@ -1402,7 +1399,7 @@ Event:Toggle({
             end)
         else
             if Connection then
-                Connection:Disconnect()
+                ConnectionInit:Disconnect(Connection)
                 Connection = nil
             end
         end
