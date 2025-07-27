@@ -1493,6 +1493,60 @@ Module:Init(function()
 	})
 end)
 
+Module:Init(function()
+	Library:CreateSection(Event, "Zen Event")
+
+	local ConnectionInit = Module:SpawnConnection()
+	local ConnectionChest = nil
+
+	Event:Toggle({
+		Title = "Auto Open Kitsune Chest",
+		Desc = "Automatically open 'Kitsune Chest' if have in backpack",
+		Icon = "gift",
+		Type = "Checkbox",
+		Default = false,
+		Callback = function(State)
+			if State then
+				if ConnectionChest then
+					ConnectionInit:Disconnect(ConnectionChest)
+					ConnectionChest = nil
+				end
+
+				local Players = game:GetService("Players")
+				local VirtualInput = game:GetService("VirtualInputManager")
+				local player = Players.LocalPlayer
+				local backpack = player:WaitForChild("Backpack")
+
+				local function equipTool(tool)
+					if player.Character and tool and tool:IsA("Tool") then
+						tool.Parent = player.Character
+					end
+				end
+
+				local function clickScreen()
+					VirtualInput:SendMouseButtonEvent(500, 500, 0, true, game, 1)
+					task.wait(0.05)
+					VirtualInput:SendMouseButtonEvent(500, 500, 0, false, game, 1)
+				end
+
+				ConnectionChest = ConnectionInit:Connect("Heartbeat", function()
+					local kitsuneChest = backpack:FindFirstChild("Kitsune Chest")
+					if kitsuneChest then
+						equipTool(kitsuneChest)
+						task.wait(0.3)
+						clickScreen()
+					end
+				end)
+			else
+				if ConnectionChest then
+					ConnectionInit:Disconnect(ConnectionChest)
+					ConnectionChest = nil
+				end
+			end
+		end
+	})
+end)
+
 --// Misc
 Module:Init(function() --// Auto Move Plants
 	Library:CreateSection(Misc, "Auto Move Plants (Trowel Required)")
@@ -2256,3 +2310,4 @@ Module:Init(function() --// Exit //--
 	Module:SendNotification('<font color="rgb(173,216,230)">Join Our Discord For More Updates</font>')
 	Module:SendNotification('<font color="rgb(173,216,230)">Scripted by severitysvc :heart: </font>')
 end)
+
