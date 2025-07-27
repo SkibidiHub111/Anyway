@@ -1417,7 +1417,7 @@ Module:Init(function() --// Auto Buy Zen Items
 	})
 end)
 
-Module:Init(function() --// Auto Reset Zen Shop Stock
+Module:Init(function()
 	Library:CreateSection(Event, "Zen Event")
 	local ConnectionInit = Module:SpawnConnection()
 	local ConnectionResetStock = nil
@@ -1448,6 +1448,48 @@ Module:Init(function() --// Auto Reset Zen Shop Stock
 				end
 			end
 		end,
+	})
+end)
+
+Module:Init(function()
+	Library:CreateSection(Event, "Zen Event")
+	local ConnectionInit = Module:SpawnConnection()
+	local ConnectionSubmit = nil
+
+	Event:Toggle({
+		Title = "Auto Submit to Kitsune",
+		Desc = "Automatically submit Tranquil to Kitsune when have",
+		Icon = "check",
+		Type = "Checkbox",
+		Default = false,
+		Callback = function(State)
+			if State then
+				if ConnectionSubmit then
+					ConnectionInit:Disconnect(ConnectionSubmit)
+					ConnectionSubmit = nil
+				end
+
+				ConnectionSubmit = ConnectionInit:Connect("Heartbeat", function()
+					local player = game.Players.LocalPlayer
+					local backpack = player:FindFirstChild("Backpack")
+					local character = player.Character or player.CharacterAdded:Wait()
+					local tranquil = (backpack and backpack:FindFirstChild("Tranquil")) or (character and character:FindFirstChild("Tranquil"))
+
+					if tranquil and tranquil.Parent ~= character then
+						tranquil.Parent = character
+					end
+
+					if character:FindFirstChild("Tranquil") then
+						game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("ZenQuestRemoteEvent"):FireServer("SubmitToFox")
+					end
+				end)
+			else
+				if ConnectionSubmit then
+					ConnectionInit:Disconnect(ConnectionSubmit)
+					ConnectionSubmit = nil
+				end
+			end
+		end
 	})
 end)
 
