@@ -1361,7 +1361,6 @@ end)
 local LastTick = 0
 local Connection
 local RunService = game:GetService("RunService")
-local ConnectionInit = RunService
 
 Event:Toggle({
     Title = "Auto Buy Zen Items",
@@ -1371,8 +1370,8 @@ Event:Toggle({
     Default = false,
     Callback = function(State)
         if State then
-            ConnectionInit:Disconnect(Connection)
-            Connection = ConnectionInit:Connect("Heartbeat", function()
+            if Connection then Connection:Disconnect() end
+            Connection = RunService.Heartbeat:Connect(function()
                 local Current = tick()
                 if Current - LastTick < 10 then
                     return
@@ -1403,7 +1402,7 @@ Event:Toggle({
             end)
         else
             if Connection then
-                ConnectionInit:Disconnect(Connection)
+                Connection:Disconnect()
                 Connection = nil
             end
         end
