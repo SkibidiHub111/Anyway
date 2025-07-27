@@ -1361,12 +1361,15 @@ end)
 Event:Toggle({
     Title = "Auto Buy Zen Items",
     Desc = "Automatically purchases all items from the Zen Event shop",
-    Icon = "check",
+    Icon = "shop",
     Type = "Checkbox",
     Default = false,
     Callback = function(State)
         if State == true then
-            ConnectionInit:Disconnect(Connection)
+            if Connection then
+                ConnectionInit:Disconnect(Connection)
+                Connection = nil
+            end
 
             Connection = ConnectionInit:Connect("Heartbeat", function()
                 local Current = tick()
