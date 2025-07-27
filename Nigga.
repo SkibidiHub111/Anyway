@@ -1417,6 +1417,40 @@ Module:Init(function() --// Auto Buy Zen Items
 	})
 end)
 
+Module:Init(function() --// Auto Reset Zen Shop Stock
+	Library:CreateSection(Event, "Zen Event")
+	local ConnectionInit = Module:SpawnConnection()
+	local ConnectionResetStock = nil
+
+	Event:Toggle({
+		Title = "Auto Reset Zen Shop Stock",
+		Desc = "Automatically resets Zen Event shop stock",
+		Icon = "check",
+		Type = "Checkbox",
+		Default = false,
+		Callback = function(State)
+			if State == true then
+				if ConnectionResetStock then
+					ConnectionInit:Disconnect(ConnectionResetStock)
+					ConnectionResetStock = nil
+				end
+
+				ConnectionResetStock = ConnectionInit:Connect("Heartbeat", function()
+					local ReplicatedStorage = game:GetService("ReplicatedStorage")
+					local RestockEvent = ReplicatedStorage:WaitForChild("GameEvents"):WaitForChild("BuyEventShopRestock")
+					RestockEvent:FireServer()
+					task.wait(0.5)
+				end)
+			else
+				if ConnectionResetStock then
+					ConnectionInit:Disconnect(ConnectionResetStock)
+					ConnectionResetStock = nil
+				end
+			end
+		end,
+	})
+end)
+
 --// Misc
 Module:Init(function() --// Auto Move Plants
 	Library:CreateSection(Misc, "Auto Move Plants (Trowel Required)")
