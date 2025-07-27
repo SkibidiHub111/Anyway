@@ -1361,7 +1361,7 @@ end)
 Event:Toggle({
     Title = "Auto Buy Zen Items",
     Desc = "Automatically purchases all items from the Zen Event shop",
-    Icon = "shop",
+    Icon = "check",
     Type = "Checkbox",
     Default = false,
     Callback = function(State)
