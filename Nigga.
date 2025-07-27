@@ -1532,6 +1532,52 @@ Module:Init(function() --// Teleport to places
 	})
 end)
 
+Module:Init(function()
+	Library:CreateSection(Event, "Zen Event")
+
+	local zenShopItems = {
+		"Zen Seed Pack",
+		"Zen Egg",
+		"Hot Spring",
+		"Zen Sand",
+		"Zenflare Stage 1",
+		"Zen Crate Stage 2",
+		"Soft Sunshine Stage 3",
+		"Koi Stage 4",
+		"Zen Gnome Crate Stage 5",
+		"Spiked Mango Stage 6",
+		"Pet Shard Tranquil Stage 7"
+	}
+
+	local SelectedItem = zenShopItems[1]
+
+	Library:CreateDropdown(Event, {
+		Title = "Select Zen Item",
+		Desc = "Choose an item from the Zen Event shop",
+		Values = zenShopItems,
+		Value = SelectedItem,
+		Multi = false,
+		AllowNone = false,
+		Callback = function(option)
+			SelectedItem = option
+		end,
+	})
+
+	Library:CreateButton(Event, {
+		Title = "Buy Selected Zen Item",
+		Desc = "Buys the item you selected from Zen Event shop",
+		Callback = function()
+			local ReplicatedStorage = game:GetService("ReplicatedStorage")
+			local BuyEvent = ReplicatedStorage:WaitForChild("GameEvents"):WaitForChild("BuyEventShopStock")
+			if SelectedItem then
+				BuyEvent:FireServer(SelectedItem)
+			else
+				warn("please choose any items to buy")
+			end
+		end,
+	})
+end)
+
 Module:Init(function() --// Auto Hatch Eggs
 	Library:CreateSection(Misc, "Hatching Eggs")
 	local ConnectionInit = Module:SpawnConnection()
